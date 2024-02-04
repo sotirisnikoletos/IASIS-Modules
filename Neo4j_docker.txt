@@ -2,4 +2,5 @@ sudo docker run --detach
 --name=neo4j-new-instance --rm --publish=7476:7474 --publish=7477:7473 --publish=7689:7687 
 --volume=$HOME/myneo4jinstance/data:/data 
 --volume=$HOME/myneo4jinstance/import:/import 
---volume=$HOME/myneo4jinstance/conf:/conf neo4j:3.5.23
+--volume=$HOME/myneo4jinstance/conf:/conf 
+neo4j:3.5.23
