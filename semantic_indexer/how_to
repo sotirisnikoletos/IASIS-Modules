@@ -1,0 +1,1 @@
+This module is used to create Neo4j graph nodes-relationships for MESH, DO, GO, DRUGBANK from the corresponding mongodb tables
