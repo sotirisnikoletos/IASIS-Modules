@@ -1,0 +1,216 @@
+##########################
+# CONFIGURATION FILE FOR VARIABLES
+# USED ACROSS THE PROJECT
+##########################
+
+
+##########################  PIPELINE  ##########################
+# Pipeline flags for what processes to perform on the data
+pipeline:
+  # What  to read
+  in:
+    # What's the source of the corpus.
+    source: mongo 
+ #'mongo', 'file' and 'delete' values currently
+    # What's the type of the input to be read. Will use
+    # the according fields in this setting file.
+    type: text
+ # text, edges, med_rec currently
+    # Do we want to do it all in a streaming fashion?
+    stream: False
+    # Do we want to perform parallel semrep extraction?
+    parallel: False
+  # What to do with it
+  trans:
+    # Extract entities using metamap?
+    metamap: False
+    # Extract relations using reverb?
+    reverb: False
+    # Extract entities + relations through semrep?
+    semrep: True
+    # Transform edges, fetching concepts and other info?
+    get_concepts_from_edges: False
+  # What to do with the outcome
+  out:
+    # Create json output?
+    json: False
+    # Create .csv files for neo4j?
+    csv: False
+    # Create-update neo4 db?
+    neo4j: True
+    # Create-update sentences in mongo?
+    mongo_sentences: False
+    # Create-update collection in mongod
+    mongo: False
+########################## END PIPELINE ##########################
+
+
+
+
+
+##########################  INPUT ##########################
+# Variables regarding loading
+load:
+  # Paths to binaries/files
+  path:
+    # Path to metamap
+    metamap: /home/semrep/public_mm/bin/
+    # Path to reverb
+    reverb: /home/semrep/public_mm/bin/ #MISSING
+    # Path to semrep #/media/kostas/DATA/LLD/SEMREP/public_semrep/bin/
+    semrep:  /home/semrep/public_semrep/bin/
+    # Path toAscii binary
+    toAscii: /media/kostas/DATA/LLD/Papers/BioASQ/MARIOS_PROJECT/lvg2017/bin #MISSING
+    # Path to input File
+    file_path: /home/snikoletos/out.json
+  # Mongo input variables
+  mongo:
+    # DB Full uri. If user/pass required pass it here like mongodb://user:pass@host:port
+    uri: mongodb://143.233.226.92:27017
+    # DB name
+    db: smarthealth_biovista_epilepsy
+    # Collection name
+    collection: NRD1_pmc
+    # Cache collection name
+    cache_collection: cache
+    # FOR PRINTING PURPOSES ONLY!
+    file_path: mongodb://143.233.226.92:27017/simpathic|NRD4_pmc
+  # For medical records
+  med_rec:
+    # Medical record name of the column to read text from
+    textfield: PrimaryDiagnosisDescription
+    # Field separator
+    sep: \t
+    # idfield
+    idfield: AdmissionID
+  # For article-document type of input
+  text:
+    # Outer field name for the json documents
+    itemfield: documents
+    # Name of the field to read text from
+    textfield: body_Filtered 
+    #abstractText
+
+    # Idfield
+    idfield: pmid
+    # Label field
+    labelfield: title
+    # Sentence Prefix
+    sent_prefix: fullText
+  # For relation-edge type of input
+  edges:
+    # Name of the field where edges are stored
+    itemfield: relations
+    # Currently [Entity, Article and any new one]
+    # Type of the subject
+    sub_type: Entity
+    # Type of the object
+    obj_type: Entity
+    # Currently [UMLS for cuis, PMC or TEXT for articles, None for precomputed and whatever else for DRUGBANK,MSH etc]
+    # Id_field of the subject
+    sub_source: None
+    # Id_field of the subject
+    obj_source: None
+##########################  END INPUT ##########################
+
+
+
+##########################  API KEYS ##########################
+# Variables regarding apis
+apis:
+  # Biontology for mapping cuis to uris
+  biont: 1dd5cfd3-3a7b-4d34-8254-242e72d2a12b
+  # Umls ticket service
+  umls: 5e3ab18f-17fa-43f6-9cb2-41cccacc4ad5
+##########################  END API KEYS ##########################
+
+
+
+##########################  NEO4j ##########################
+# Neoj variables
+neo4j:
+  # DB url
+  host: localhost
+  # port
+  port: 7476
+  # user name
+  user: neo4j
+  # password
+  password: tool1234!
+  # name of the resource to be inputted in neo4j
+  resource: text
+##########################  END NEO4j ##########################
+
+
+##########################  MONGODB FOR SENTENCES ##########################
+# Mongo variables for writing sentences
+mongo_sentences:
+  # DB Full uri. If user/pass required pass it here like mongodb://user:pass@host:port
+  uri: mongodb://localhost:27017
+  # DB name
+  db: testp4-lucat
+  # Collection name
+  collection: LC_pmc_enriched
+##########################  END MONGODB ##########################
+
+
+########################## CACHE  ############################
+cache_path: /home/snikoletos/cache.json
+########################## END CACHE  ############################
+
+########################## CACHE  ############################
+log_path: /home/snikoletos/medknow.log
+########################## END CACHE  ############################
+
+
+########################## PARALLEL  ############################
+# Number of cores to use in parallel schemes. If none, it will be
+# equal to cpu count.
+num_cores: 4
+# Number of items per core to be processed. This will create a batch
+# of total size = num_cores*batch_per_core. It defaults to 100
+batch_per_core: 10
+########################## END PARALLEL  ############################
+
+##########################  OUTPUT ##########################
+# Output variables
+out:
+   # Resulting .json file before neo4j
+  json:
+    # Path
+    out_path: /home/snikoletos/out.json
+    # Output json outer field name for the documents
+    itemfield: documents
+    # Output json text field for each document
+    json_text_field: text
+    # Output Idfield
+    json_id_field: id
+    # Output Label field
+    json_label_field: title
+  # Resulting .json file before neo4j
+  csv:
+    # Path
+    out_path: /home/snikoletos/output.csv
+  # Resulting .json file before neo4j
+  neo4j:
+    # Just for printing! Change the Neo4j field variables, not this!
+    out_path: localhost:7476
+  mongo:
+    # DB Full uri. If user/pass required pass it here like mongodb://user:pass@host:port
+    uri: mongodb://localhost:27017
+    # DB name
+    db: testp4-lucat
+    # Collection name
+    collection: LC_pmc_enriched2
+    # Just for printing! Change the mongo field variables, not this!
+    out_path: mongodb://localhost:27017/testp4-lucat|LC_pmc_enriched2
+##########################  END OUTPUT ##########################
+
+
+### RABBIT-MQ ###
+rabbit_mq:
+  mod_name: literature_analysis
+  host: 46.4.68.229
+  port: 5672
+  user: guest
+  password: test12
