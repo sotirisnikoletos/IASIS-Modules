@@ -1,2 +1,3 @@
 Change port, host settings of neo4j in "medknow/data_saver.py", function named "update_neo4j"
 Change path of file "settingsgeorge.yaml" in "medknow/config.py"
+Run (nohup) ./start.sh
