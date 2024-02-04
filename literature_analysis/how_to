@@ -1,1 +1,1 @@
-Change port, host settings of neo4j in "data_saver.py", function "update_neo4j"
+Change port, host settings of neo4j in "medknow/data_saver.py", function named "update_neo4j"
